@@ -1,0 +1,24 @@
+import cv2
+
+cap = cv2.VideoCapture("tiny_sample_video.mp4")
+
+if not cap.isOpened():
+    print("Cannot open video file")
+    exit()
+
+while True:
+    ret, frame = cap.read()
+
+    if not ret:
+        break
+
+    cv2.imshow("Video", frame)
+
+    # Normal: 30 ms
+    # Slow: 100 ms
+    # Fast: 10 ms
+    if cv2.waitKey(30) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
