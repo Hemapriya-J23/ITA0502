@@ -1,0 +1,14 @@
+import cv2
+
+# Read the image
+img = cv2.imread("image 2.png")
+
+# Apply Gaussian Blur
+blur = cv2.GaussianBlur(img, (15, 15), 0)
+
+# Display images
+cv2.imshow("Original Image", img)
+cv2.imshow("Blurred Image", blur)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
