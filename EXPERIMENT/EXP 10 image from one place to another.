@@ -1,0 +1,30 @@
+import cv2
+import numpy as np
+
+# Read image
+img = cv2.imread("image10.png")
+
+if img is None:
+    print("Image not found!")
+    exit()
+
+# Image size
+h, w = img.shape[:2]
+
+# Move values
+tx = 150   # Move right
+ty = 100   # Move down
+
+# Translation matrix
+M = np.float32([[1, 0, tx],
+                [0, 1, ty]])
+
+# Increase canvas size so movement is visible
+translated = cv2.warpAffine(img, M, (w + tx, h + ty))
+
+# Show images
+cv2.imshow("Original", img)
+cv2.imshow("Moved Image", translated)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
