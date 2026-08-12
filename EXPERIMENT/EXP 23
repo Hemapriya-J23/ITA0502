@@ -1,0 +1,27 @@
+import cv2
+
+# Read the original image
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image18.png")
+
+# Check whether image is loaded
+if image is None:
+    print("Image not found. Check the file name and path.")
+    exit()
+
+# Create a blurred image using Gaussian Blur
+blurred = cv2.GaussianBlur(image, (5, 5), 0)
+
+# Unsharp Masking
+# Sharpened = Original + amount * (Original - Blurred)
+sharpened = cv2.addWeighted(image, 1.5, blurred, -0.5, 0)
+
+# Display images
+cv2.imshow("Original Image", image)
+cv2.imshow("Blurred Image", blurred)
+cv2.imshow("Sharpened Image", sharpened)
+
+# Save the sharpened image
+cv2.imwrite(r"C:\Users\hemap\Downloads\CV\sharpened_image.png", sharpened)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
