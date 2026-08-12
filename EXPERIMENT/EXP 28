@@ -1,0 +1,29 @@
+import cv2
+import numpy as np
+
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image18.png")
+
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Convolution kernel for boundary detection
+kernel = np.array([
+    [-1, -1, -1],
+    [-1,  8, -1],
+    [-1, -1, -1]
+], dtype=np.float32)
+
+# Apply convolution
+boundary = cv2.filter2D(gray, cv2.CV_32F, kernel)
+
+# Convert result for display
+boundary = cv2.convertScaleAbs(boundary)
+
+cv2.imshow("Original Image", gray)
+cv2.imshow("Boundary Detection using Convolution Kernel", boundary)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
