@@ -1,0 +1,42 @@
+import cv2
+import numpy as np
+
+# Read the image
+img = cv2.imread("image12.png")
+
+# Check if the image is loaded
+if img is None:
+    print("Error: Image not found!")
+    exit()
+
+# Source points (select four corners from the original image)
+pts1 = np.float32([
+    [50, 50],
+    [300, 50],
+    [50, 300],
+    [300, 300]
+])
+
+# Destination points
+pts2 = np.float32([
+    [0, 0],
+    [400, 0],
+    [0, 400],
+    [400, 400]
+])
+
+# Perspective Transformation Matrix
+matrix = cv2.getPerspectiveTransform(pts1, pts2)
+
+# Apply Perspective Transformation
+result = cv2.warpPerspective(img, matrix, (400, 400))
+
+# Show Images
+cv2.imshow("Original Image", img)
+cv2.imshow("Perspective Transformed Image", result)
+
+# Save the output
+cv2.imwrite("perspective_output.png", result)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
