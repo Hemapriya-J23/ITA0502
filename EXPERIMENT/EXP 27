@@ -1,0 +1,26 @@
+import cv2
+
+# Read the images
+source = cv2.imread(r"C:\Users\hemap\Downloads\CV\image18.png")
+destination = cv2.imread(r"C:\Users\hemap\Downloads\CV\image14.png")
+
+if source is None or destination is None:
+    print("Error: Image not found!")
+    exit()
+
+# Crop a part of the source image
+crop = source[50:200, 50:200]
+
+# Get crop dimensions
+h, w = crop.shape[:2]
+
+# Paste the cropped image inside the destination image
+destination[50:50+h, 50:50+w] = crop
+
+# Display results
+cv2.imshow("Source Image", source)
+cv2.imshow("Cropped Image", crop)
+cv2.imshow("Copy and Pasted Image", destination)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
