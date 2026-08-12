@@ -1,0 +1,44 @@
+import cv2
+import numpy as np
+
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image15.png")
+
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+src_pts = np.float32([
+    [50, 50],
+    [300, 50],
+    [50, 300],
+    [300, 300]
+])
+
+dst_pts = np.float32([
+    [10, 100],
+    [280, 50],
+    [80, 320],
+    [320, 300]
+])
+
+A = []
+
+for (x, y), (X, Y) in zip(src_pts, dst_pts):
+    A.append([-x, -y, -1, 0, 0, 0, x*X, y*X, X])
+    A.append([0, 0, 0, -x, -y, -1, x*Y, y*Y, Y])
+
+A = np.array(A)
+
+U, S, Vt = np.linalg.svd(A)
+
+H = Vt[-1].reshape(3, 3)
+
+H = H / H[2, 2]
+
+result = cv2.warpPerspective(image, H, (400, 400))
+
+cv2.imshow("Original Image", image)
+cv2.imshow("DLT Transformation", result)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
