@@ -1,0 +1,35 @@
+import cv2
+import numpy as np
+
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image18.png")
+
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Laplacian mask with negative center coefficient
+mask = np.array([
+    [0,  1,  0],
+    [1, -4,  1],
+    [0,  1,  0]
+], dtype=np.float32)
+
+# Apply Laplacian mask
+laplacian = cv2.filter2D(gray, cv2.CV_32F, mask)
+
+# Create sharpened image
+sharpened = gray.astype(np.float32) - laplacian
+sharpened = np.clip(sharpened, 0, 255).astype(np.uint8)
+
+# Convert Laplacian for display
+laplacian_display = cv2.convertScaleAbs(laplacian)
+
+# Display all three images
+cv2.imshow("Original Image", gray)
+cv2.imshow("Sharpened Image", sharpened)
+cv2.imshow("Laplacian Image", laplacian_display)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
