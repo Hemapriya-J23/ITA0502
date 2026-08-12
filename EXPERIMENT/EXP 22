@@ -1,0 +1,27 @@
+import cv2
+import numpy as np
+
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image18.png")
+
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Laplacian mask with positive center coefficient
+mask = np.array([
+    [0, -1, 0],
+    [-1, 5, -1],
+    [0, -1, 0]
+], dtype=np.float32)
+
+# Apply sharpening mask
+sharpened = cv2.filter2D(gray, -1, mask)
+
+# Display results
+cv2.imshow("Original Image", gray)
+cv2.imshow("Sharpened Image - Positive Center Coefficient", sharpened)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
