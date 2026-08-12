@@ -1,0 +1,27 @@
+import cv2
+import numpy as np
+
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image18.png")
+
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Convert to binary image
+_, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+
+# Create structuring element
+kernel = np.ones((5, 5), np.uint8)
+
+# Apply dilation
+dilation = cv2.dilate(binary, kernel, iterations=1)
+
+# Display results
+cv2.imshow("Original Image", image)
+cv2.imshow("Binary Image", binary)
+cv2.imshow("Dilation", dilation)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
