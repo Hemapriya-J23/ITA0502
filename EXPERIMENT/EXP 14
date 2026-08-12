@@ -1,0 +1,32 @@
+import cv2
+import numpy as np
+
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image14.png")
+
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+src_pts = np.float32([
+    [50, 50],
+    [300, 50],
+    [50, 300],
+    [300, 300]
+])
+
+dst_pts = np.float32([
+    [10, 100],
+    [280, 50],
+    [80, 320],
+    [320, 300]
+])
+
+H, status = cv2.findHomography(src_pts, dst_pts)
+
+result = cv2.warpPerspective(image, H, (400, 400))
+
+cv2.imshow("Original Image", image)
+cv2.imshow("Homography Transformation", result)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
