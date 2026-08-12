@@ -1,0 +1,32 @@
+import cv2
+
+# Read image
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image18.png")
+
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+# Watermark text
+watermark = "HEMAPRIYA"
+
+# Position of watermark
+position = (20, 40)
+
+# Add watermark
+cv2.putText(
+    image,
+    watermark,
+    position,
+    cv2.FONT_HERSHEY_SIMPLEX,
+    1,
+    (255, 255, 255),
+    2,
+    cv2.LINE_AA
+)
+
+# Display image
+cv2.imshow("Watermarked Image", image)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
