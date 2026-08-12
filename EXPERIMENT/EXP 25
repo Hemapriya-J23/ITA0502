@@ -1,0 +1,41 @@
+import cv2
+import numpy as np
+
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image18.png")
+
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Gradient masks
+mask_x = np.array([
+    [-1, -2, -1],
+    [ 0,  0,  0],
+    [ 1,  2,  1]
+], dtype=np.float32)
+
+mask_y = np.array([
+    [-1,  0,  1],
+    [-2,  0,  2],
+    [-1,  0,  1]
+], dtype=np.float32)
+
+# Apply gradient masks
+gx = cv2.filter2D(gray, cv2.CV_32F, mask_x)
+gy = cv2.filter2D(gray, cv2.CV_32F, mask_y)
+
+# Calculate gradient magnitude
+gradient = cv2.magnitude(gx, gy)
+gradient = cv2.convertScaleAbs(gradient)
+
+# Sharpen image
+sharpened = cv2.add(gray, gradient)
+
+cv2.imshow("Original Image", gray)
+cv2.imshow("Gradient Mask", gradient)
+cv2.imshow("Sharpened Image", sharpened)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
