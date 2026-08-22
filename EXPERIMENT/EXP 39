@@ -1,0 +1,39 @@
+import cv2
+import numpy as np
+
+# Read input image
+img = cv2.imread(
+    r"C:\Users\hemap\Downloads\CV\image39.png",
+    cv2.IMREAD_GRAYSCALE
+)
+
+# Check whether image is loaded
+if img is None:
+    print("Error: image39.png not found!")
+    exit()
+
+# Create 5x5 kernel
+kernel = np.ones((5, 5), np.uint8)
+
+# Apply Morphological Opening
+opening = cv2.morphologyEx(
+    img,
+    cv2.MORPH_OPEN,
+    kernel
+)
+
+# Display input and output
+cv2.imshow("Input - image39", img)
+cv2.imshow("Morphological Opening", opening)
+
+# Save result
+cv2.imwrite(
+    r"C:\Users\hemap\Downloads\CV\image40.png",
+    opening
+)
+
+print("Opening operation completed!")
+print("Output saved as image40.png")
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
