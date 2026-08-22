@@ -1,0 +1,29 @@
+import cv2
+import numpy as np
+
+# Read the image
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image18.png")
+
+# Check whether image is loaded
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+# Convert to grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Create kernel
+kernel = np.ones((5, 5), np.uint8)
+
+# Perform Opening
+opening = cv2.morphologyEx(gray, cv2.MORPH_OPEN, kernel)
+
+# Display images
+cv2.imshow("Original Image", image)
+cv2.imshow("Opening Image", opening)
+
+# Save output
+cv2.imwrite(r"C:\Users\hemap\Downloads\CV\opening_image18.png", opening)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
