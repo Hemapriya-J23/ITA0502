@@ -1,0 +1,37 @@
+import cv2
+
+# Open the video
+video = cv2.VideoCapture(
+    r"C:\Users\hemap\Downloads\CV\image37.mp4"
+)
+
+# Check if video is opened
+if not video.isOpened():
+    print("Error: Video not found!")
+    exit()
+
+# Store all frames
+frames = []
+
+while True:
+    ret, frame = video.read()
+
+    if not ret:
+        break
+
+    frames.append(frame)
+
+video.release()
+
+print("Playing video in reverse mode...")
+
+# Play video in reverse
+for frame in reversed(frames):
+
+    cv2.imshow("Reverse Video", frame)
+
+    # Press ESC to stop
+    if cv2.waitKey(30) & 0xFF == 27:
+        break
+
+cv2.destroyAllWindows()
