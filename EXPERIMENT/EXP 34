@@ -1,0 +1,32 @@
+import cv2
+import numpy as np
+
+# Read the image
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image33.png")
+
+# Check if image is loaded
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+# Convert to grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Create kernel
+kernel = np.ones((5, 5), np.uint8)
+
+# Perform Top Hat operation
+top_hat = cv2.morphologyEx(gray, cv2.MORPH_TOPHAT, kernel)
+
+# Display images
+cv2.imshow("Original Image", image)
+cv2.imshow("Top Hat Image", top_hat)
+
+# Save output
+cv2.imwrite(
+    r"C:\Users\hemap\Downloads\CV\top_hat_image18.png",
+    top_hat
+)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
