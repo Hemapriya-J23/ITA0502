@@ -1,0 +1,27 @@
+import cv2
+
+# Read the image
+img = cv2.imread("image18.png")
+
+# Check if image is loaded
+if img is None:
+    print("Image not found!")
+    exit()
+
+# Draw rectangle around the object
+x, y, w, h = 100, 80, 200, 180
+cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+# Extract the object/region inside the rectangle
+extracted = img[y:y + h, x:x + w]
+
+# Display images
+cv2.imshow("Rectangle Selection", img)
+cv2.imshow("Extracted Object", extracted)
+
+# Save output
+cv2.imwrite("image40_rectangle.jpg", img)
+cv2.imwrite("image40_extracted.jpg", extracted)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
