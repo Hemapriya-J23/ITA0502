@@ -1,0 +1,88 @@
+import cv2
+import numpy as np
+
+# Read the image
+image = cv2.imread(r"C:\Users\hemap\Downloads\CV\image36.png")
+
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+# Convert to grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Reduce noise
+gray = cv2.GaussianBlur(gray, (7, 7), 0)
+
+height, width = gray.shape
+
+# Select the central region where the watch is located
+x1 = int(width * 0.20)
+x2 = int(width * 0.80)
+y1 = int(height * 0.15)
+y2 = int(height * 0.95)
+
+roi = gray[y1:y2, x1:x2]
+
+# Detect circles only inside the watch region
+circles = cv2.HoughCircles(
+    roi,
+    cv2.HOUGH_GRADIENT,
+    dp=1.2,
+    minDist=50,
+    param1=100,
+    param2=35,
+    minRadius=40,
+    maxRadius=100
+)
+
+if circles is not None:
+
+    circles = np.round(circles[0, :]).astype("int")
+
+    # Find the circle closest to the center of the ROI
+    roi_center_x = roi.shape[1] // 2
+    roi_center_y = roi.shape[0] // 2
+
+    circle = min(
+        circles,
+        key=lambda c: (c[0] - roi_center_x) ** 2 +
+                      (c[1] - roi_center_y) ** 2
+    )
+
+    x, y, r = circle
+
+    # Convert ROI coordinates to original image coordinates
+    x = x + x1
+    y = y + y1
+
+    # Draw circle around the watch
+    cv2.circle(image, (x, y), r, (0, 255, 0), 3)
+
+    # Display label
+    cv2.putText(
+        image,
+        "Watch Detected",
+        (x - 80, y - r - 10),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.7,
+        (0, 255, 0),
+        2
+    )
+
+    print("Watch Detected")
+
+else:
+    print("Watch Not Detected")
+
+# Display result
+cv2.imshow("Watch Recognition", image)
+
+# Save result
+cv2.imwrite(
+    r"C:\Users\hemap\Downloads\CV\watch_recognized.png",
+    image
+)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
